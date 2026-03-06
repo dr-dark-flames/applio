@@ -14,7 +14,6 @@ import numpy as np
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
-from torch.nn import functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
@@ -40,7 +39,6 @@ from utils import (
 )
 
 # Zluda hijack
-import rvc.lib.zluda
 from rvc.lib.algorithm import commons
 from rvc.train.process.extract_model import extract_model
 
@@ -168,7 +166,15 @@ def main():
     """
     Main function to start the training process.
     """
-    global training_file_path, last_loss_gen_all, smoothed_loss_gen_history, loss_gen_history, loss_disc_history, smoothed_loss_disc_history, overtrain_save_epoch, gpus
+    global \
+        training_file_path, \
+        last_loss_gen_all, \
+        smoothed_loss_gen_history, \
+        loss_gen_history, \
+        loss_disc_history, \
+        smoothed_loss_disc_history, \
+        overtrain_save_epoch, \
+        gpus
 
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = str(randint(20000, 55555))
@@ -339,12 +345,15 @@ def run(
     else:
         writer_eval = None
 
-    dist.init_process_group(
-        backend="gloo" if sys.platform == "win32" or device.type != "cuda" else "nccl",
-        init_method="env://",
-        world_size=n_gpus if device.type == "cuda" else 1,
-        rank=rank if device.type == "cuda" else 0,
-    )
+    if n_gpus > 1:
+        dist.init_process_group(
+            backend="gloo"
+            if sys.platform == "win32" or device.type != "cuda"
+            else "nccl",
+            init_method="env://",
+            world_size=n_gpus if device.type == "cuda" else 1,
+            rank=rank if device.type == "cuda" else 0,
+        )
 
     torch.manual_seed(config.train.seed)
 
@@ -496,7 +505,7 @@ def run(
         epoch_str += 1
         global_step = (epoch_str - 1) * len(train_loader)
 
-    except Exception as e:
+    except Exception:
         epoch_str = 1
         global_step = 0
 
@@ -640,7 +649,14 @@ def train_and_evaluate(
         cache (list): List to cache data in GPU memory.
         use_cpu (bool): Whether to use CPU for training.
     """
-    global global_step, lowest_value, loss_disc, consecutive_increases_gen, consecutive_increases_disc, smoothed_value_gen, smoothed_value_disc
+    global \
+        global_step, \
+        lowest_value, \
+        loss_disc, \
+        consecutive_increases_gen, \
+        consecutive_increases_disc, \
+        smoothed_value_gen, \
+        smoothed_value_disc
 
     if epoch == 1:
         lowest_value = {"step": 0, "value": float("inf"), "epoch": 0}

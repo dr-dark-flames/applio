@@ -1,12 +1,9 @@
 # Core dependencies
-setuptools==81.0.0
-pip>=23.3; sys_platform == 'darwin'
-wheel; sys_platform == 'darwin'
-PyYAML; sys_platform == 'darwin'
 numpy==2.3.5
-requests>=2.31.0,<2.32.0
+requests>=2.31,<2.32
 tqdm
 wget
+PyYAML
 
 # Audio processing
 ffmpeg-python>=0.2.0
@@ -19,28 +16,25 @@ pedalboard
 stftpitchshift
 soxr
 
-# Machine learning and deep learning
-omegaconf>=2.0.6; sys_platform == 'darwin'
+# Machine learning
 numba==0.63.1
-torch==2.7.1; sys_platform == 'darwin'
-torch==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
-torchaudio==2.7.1; sys_platform == 'darwin'
-torchaudio==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
-torchvision==0.22.1; sys_platform == 'darwin'
-torchvision==0.22.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
+torch
+torchvision
+torchaudio
 torchcrepe
 torchfcpe
+transformers>=4.46
+tokenizers>=0.20
+accelerate
+safetensors
 einops
-transformers==4.44.2
 
-# Visualization and UI
+# Visualization / UI
 matplotlib==3.10.8
 tensorboard
 gradio==6.5.1
 
-# Miscellaneous utilities
-certifi>=2023.07.22; sys_platform == 'darwin'
-antlr4-python3-runtime==4.8; sys_platform == 'darwin'
+# Utilities
 tensorboardX
 edge-tts==7.2.7
 pypresence
