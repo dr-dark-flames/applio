@@ -1,0 +1,57 @@
+[project]
+name = "applio"
+version = "3.6.2"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.3.5",
+  "requests>=2.31,<2.32",
+  "tqdm",
+  "wget",
+  "PyYAML",
+  "ffmpeg-python>=0.2.0",
+  "faiss-cpu==1.13.2",
+  "librosa==0.11.0",
+  "scipy==1.16.3",
+  "soundfile==0.12.1",
+  "noisereduce",
+  "pedalboard",
+  "stftpitchshift",
+  "soxr",
+  "numba==0.63.1",
+  "torch",
+  "torchvision",
+  "torchaudio",
+  "torchcrepe",
+  "torchfcpe",
+  "transformers>=4.46",
+  "tokenizers>=0.20",
+  "accelerate",
+  "safetensors",
+  "einops",
+  "matplotlib==3.10.8",
+  "tensorboard",
+  "gradio==6.5.1",
+  "tensorboardX",
+  "edge-tts==7.2.7",
+  "pypresence",
+  "beautifulsoup4",
+  "sounddevice",
+  "webrtcvad-wheels",
+  "audio-separator[gpu]>=0.41.1",
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchaudio = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
